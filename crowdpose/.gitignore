@@ -1,0 +1,4 @@
+# This is a purposefully empty directory.
+# Data files should not be included in git
+*
+!.gitignore
