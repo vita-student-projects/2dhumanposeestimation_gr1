@@ -14,7 +14,7 @@ In order to properly run the files, please make use of the provided `louisgevers
 To run the container with an interactive command line in order to run the different scripts, run the following:
 
 ```bash
-$ docker run -it louisgevers/dlav2023 sh
+$ docker run -it --rm -v $(pwd):/usr/src louisgevers/dlav2023 sh
 ```
 
 ## Building the image yourself
