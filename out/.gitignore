@@ -1,0 +1,4 @@
+# This is a purposefully empty directory.
+# Output files should not be included in git
+*
+!.gitignore
