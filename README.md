@@ -28,7 +28,7 @@ $ docker build -t louisgevers/dlav2023 .
 
 We use the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose).
 The repository contains the Google drive links for downloading the images and annotations.
-Images should be downloaded under the [/crowdpose/images/](/crowdpose/images/) directory, and annotations under [/crowdpose/annotations/](/crowdpose/annotations/).
+Images should be downloaded under the [/data-crowdpose/images/](/data-crowdpose/images/) directory, and annotations under [/data-crowdpose/json/](/data-crowdpose/json/).
 
 To avoid doing this manually, simply run the following script:
 
@@ -38,6 +38,10 @@ $ sh data.sh
 
 Note: run this in your container or install `gdown` with pip.
 
-# 3. TODO
+# TODO
 
 instructions to run and test model + links to download the models weights/checkpoints
+
+**Backbones to test**
+
+- Pruning with big backbone (HRFormer) vs using a small backbone (second is extra) (we can compare performance with mobilenet)
