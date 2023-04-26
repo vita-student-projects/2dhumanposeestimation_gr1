@@ -6,26 +6,20 @@
 # --------------------------------------------------------
 
 import os
-import pdb
+import copy
 import logging
 import torch.nn as nn
+import torch.nn.functional as F
+import torch.utils.checkpoint as cp
+from .transformer_block import GeneralTransformerBlock
 
-
-BN_MOMENTUM = 0.1
-
-
-def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
-    """3x3 convolution with padding"""
-    return nn.Conv2d(
-        in_planes,
-        out_planes,
-        kernel_size=3,
-        stride=stride,
-        padding=dilation,
-        groups=groups,
-        bias=False,
-        dilation=dilation,
-    )
+from mmcv.cnn import (
+    build_conv_layer,
+    build_norm_layer,
+    build_plugin_layer,
+    constant_init,
+    kaiming_init,
+)
 
 
 class BasicBlock(nn.Module):
@@ -33,31 +27,100 @@ class BasicBlock(nn.Module):
 
     expansion = 1
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None):
+    def __init__(
+        self,
+        inplanes,
+        planes,
+        stride=1,
+        downsample=None,
+        with_cp=False,
+        conv_cfg=None,
+        norm_cfg=dict(type="BN"),
+        mhsa_flag=False,
+        num_heads=1,
+        num_halo_block=1,
+        num_mlp_ratio=4,
+        num_sr_ratio=1,
+        with_rpe=False,
+        with_ffn=True,
+    ):
         super(BasicBlock, self).__init__()
-        self.conv1 = conv3x3(inplanes, planes, stride)
-        self.bn1 = nn.BatchNorm2d(planes, momentum=BN_MOMENTUM)
+        norm_cfg = copy.deepcopy(norm_cfg)
+
+        self.in_channels = inplanes
+        self.out_channels = planes
+        self.stride = stride
+        self.with_cp = with_cp
+        self.downsample = downsample
+
+        self.norm1_name, norm1 = build_norm_layer(norm_cfg, planes, postfix=1)
+        self.norm2_name, norm2 = build_norm_layer(norm_cfg, planes, postfix=2)
+
+        self.conv1 = build_conv_layer(
+            conv_cfg,
+            inplanes,
+            planes,
+            3,
+            stride=stride,
+            padding=1,
+            dilation=1,
+            bias=False,
+        )
+        self.add_module(self.norm1_name, norm1)
+
+        if not mhsa_flag:
+            self.conv2 = build_conv_layer(
+                conv_cfg, planes, planes, 3, padding=1, bias=False
+            )
+            self.add_module(self.norm2_name, norm2)
+        else:
+            self.conv2 = GeneralTransformerBlock(
+                planes,
+                num_heads=num_heads,
+                mlp_ratio=num_mlp_ratio,
+                sr_ratio=num_sr_ratio,
+                input_resolution=num_resolution,
+                with_rpe=with_rpe,
+                with_ffn=with_ffn,
+            )
+
         self.relu = nn.ReLU(inplace=True)
 
-        self.conv2 = conv3x3(planes, planes)
-        self.bn2 = nn.BatchNorm2d(planes, momentum=BN_MOMENTUM)
-        self.downsample = downsample
-        self.stride = stride
+    @property
+    def norm1(self):
+        """nn.Module: normalization layer after the first convolution layer"""
+        return getattr(self, self.norm1_name)
+
+    @property
+    def norm2(self):
+        """nn.Module: normalization layer after the second convolution layer"""
+        return getattr(self, self.norm2_name)
 
     def forward(self, x):
-        residual = x
+        """Forward function."""
 
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
+        def _inner_forward(x):
+            identity = x
 
-        out = self.conv2(out)
-        out = self.bn2(out)
+            out = self.conv1(x)
+            out = self.norm1(out)
+            out = self.relu(out)
 
-        if self.downsample is not None:
-            residual = self.downsample(x)
+            out = self.conv2(out)
+            out = self.norm2(out)
 
-        out += residual
+            if self.downsample is not None:
+                identity = self.downsample(x)
+
+            out += identity
+
+            return out
+
+        if self.with_cp and x.requires_grad:
+            out = cp.checkpoint(_inner_forward, x)
+        else:
+            out = _inner_forward(x)
+
         out = self.relu(out)
 
         return out

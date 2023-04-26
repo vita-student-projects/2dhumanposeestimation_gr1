@@ -6,98 +6,117 @@
 # --------------------------------------------------------
 
 import os
+import copy
 import logging
 import torch.nn as nn
+import torch.nn.functional as F
+import torch.utils.checkpoint as cp
 
-
-BN_MOMENTUM = 0.1
+from mmcv.cnn import build_conv_layer, build_norm_layer
 
 
 class Bottleneck(nn.Module):
     expansion = 4
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None):
+    def __init__(
+        self,
+        inplanes,
+        planes,
+        stride=1,
+        downsample=None,
+        with_cp=None,
+        norm_cfg=dict(type="BN"),
+        conv_cfg=None,
+    ):
         super(Bottleneck, self).__init__()
-        self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(planes, momentum=BN_MOMENTUM)
-        self.conv2 = nn.Conv2d(
-            planes, planes, kernel_size=3, stride=stride, padding=1, bias=False
-        )
-        self.bn2 = nn.BatchNorm2d(planes, momentum=BN_MOMENTUM)
-        self.conv3 = nn.Conv2d(
-            planes, planes * self.expansion, kernel_size=1, bias=False
-        )
-        self.bn3 = nn.BatchNorm2d(planes * self.expansion, momentum=BN_MOMENTUM)
-        self.relu = nn.ReLU(inplace=True)
-        self.downsample = downsample
+        norm_cfg = copy.deepcopy(norm_cfg)
+
+        self.in_channels = inplanes
+        self.out_channels = planes
         self.stride = stride
+        self.with_cp = with_cp
+        self.downsample = downsample
 
-    def forward(self, x):
-        residual = x
+        self.conv1_stride = 1
+        self.conv2_stride = stride
 
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
+        self.norm1_name, norm1 = build_norm_layer(norm_cfg, planes, postfix=1)
+        self.norm2_name, norm2 = build_norm_layer(norm_cfg, planes, postfix=2)
+        self.norm3_name, norm3 = build_norm_layer(
+            norm_cfg, planes * self.expansion, postfix=3
+        )
 
-        out = self.conv2(out)
-        out = self.bn2(out)
-        out = self.relu(out)
+        self.conv1 = build_conv_layer(
+            conv_cfg,
+            inplanes,
+            planes,
+            kernel_size=1,
+            stride=self.conv1_stride,
+            bias=False,
+        )
+        self.add_module(self.norm1_name, norm1)
 
-        out = self.conv3(out)
-        out = self.bn3(out)
-
-        if self.downsample is not None:
-            residual = self.downsample(x)
-
-        out += residual
-        out = self.relu(out)
-
-        return out
-
-
-class BottleneckDWP(nn.Module):
-    expansion = 4
-
-    def __init__(self, inplanes, planes, stride=1, downsample=None):
-        super(BottleneckDWP, self).__init__()
-        self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(planes, momentum=BN_MOMENTUM)
-        self.conv2 = nn.Conv2d(
+        self.conv2 = build_conv_layer(
+            conv_cfg,
             planes,
             planes,
             kernel_size=3,
-            stride=stride,
+            stride=self.conv2_stride,
             padding=1,
             bias=False,
-            groups=planes,
         )
-        self.bn2 = nn.BatchNorm2d(planes, momentum=BN_MOMENTUM)
-        self.conv3 = nn.Conv2d(
-            planes, planes * self.expansion, kernel_size=1, bias=False
+        self.add_module(self.norm2_name, norm2)
+
+        self.conv3 = build_conv_layer(
+            conv_cfg, planes, planes * self.expansion, kernel_size=1, bias=False
         )
-        self.bn3 = nn.BatchNorm2d(planes * self.expansion, momentum=BN_MOMENTUM)
+        self.add_module(self.norm3_name, norm3)
         self.relu = nn.ReLU(inplace=True)
-        self.downsample = downsample
-        self.stride = stride
+
+    @property
+    def norm1(self):
+        """nn.Module: normalization layer after the first convolution layer"""
+        return getattr(self, self.norm1_name)
+
+    @property
+    def norm2(self):
+        """nn.Module: normalization layer after the second convolution layer"""
+        return getattr(self, self.norm2_name)
+
+    @property
+    def norm3(self):
+        """nn.Module: normalization layer after the third convolution layer"""
+        return getattr(self, self.norm3_name)
 
     def forward(self, x):
-        residual = x
+        """Forward function."""
 
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
+        def _inner_forward(x):
+            identity = x
 
-        out = self.conv2(out)
-        out = self.bn2(out)
-        out = self.relu(out)
+            out = self.conv1(x)
+            out = self.norm1(out)
+            out = self.relu(out)
 
-        out = self.conv3(out)
-        out = self.bn3(out)
+            out = self.conv2(out)
+            out = self.norm2(out)
+            out = self.relu(out)
 
-        if self.downsample is not None:
-            residual = self.downsample(x)
+            out = self.conv3(out)
+            out = self.norm3(out)
 
-        out += residual
+            if self.downsample is not None:
+                identity = self.downsample(x)
+
+            out += identity
+
+            return out
+
+        if self.with_cp and x.requires_grad:
+            out = cp.checkpoint(_inner_forward, x)
+        else:
+            out = _inner_forward(x)
+
         out = self.relu(out)
 
         return out
