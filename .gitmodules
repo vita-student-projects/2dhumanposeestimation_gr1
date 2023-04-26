@@ -1,3 +1,0 @@
-[submodule "submodules/HRFormer"]
-	path = submodules/HRFormer
-	url = https://github.com/HRNet/HRFormer.git
