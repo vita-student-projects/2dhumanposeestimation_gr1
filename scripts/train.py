@@ -1,22 +1,36 @@
+from typing import Literal
 import openpifpaf
 import openpifpaf.train
 import sys
 
-# Wrapper function to make the call to OpenPifPaf's training method easier
-def train_openpifpaf(output="test", epochs: int = 1000, basenet: str = "resnet50"):
-    args = [
-        "--dataset",
-        "crowdpose",
-        "--output",
-        f"out/{output}",
-        "--epochs",
-        str(epochs),
-        "--basenet",
-        basenet,
-    ]
-    sys.argv.extend(args)
+
+def main(
+    output: str,
+    backbone: Literal["swin"],
+    epochs: int = 300,  # default for crowdpose
+):
+    # NOTE: all parameters from OpenPifPaf paper for training on crowdpose
+
+    # Base arguments
+    args = f"--dataset crowdpose --output out/{output} --epochs {epochs}"
+    # Optimizer
+    args += " --momentum 0.95 --weight-decay 1e-5 --batch-size 32"
+    # Learning rate scheduler
+    args += " --lr 1e-3 --lr-decay 250 280 --lr-decay-epochs 10 --lr-decay-factor 10 --lr-warm-up-start-epoch 0 --lr-warm-up-epochs 1 --lr-warm-up-factor 1e-3"
+
+    # Backbone specific arguments
+    if backbone == "swin":
+        args += (
+            " --basenet swin_b"  # TODO: all pre-trained swin types + resnet as baseline
+        )
+    else:
+        raise ValueError(f"Unknown backbone option: {backbone}")
+
+    # Add arguments to system for openpifpaf script
+    sys.argv.extend(args.split())
+    # Run openpifpaf training script
     openpifpaf.train.main()
 
 
 if __name__ == "__main__":
-    train_openpifpaf()
+    main("test", backbone="swin")

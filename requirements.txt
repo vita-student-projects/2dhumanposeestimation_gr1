@@ -3,3 +3,4 @@ matplotlib==3.7.1
 gdown==4.7.1
 pycocotools==2.0.6
 scipy==1.10.1
+openpifpaf-extras==0.0.3
