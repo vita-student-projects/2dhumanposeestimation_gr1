@@ -23,9 +23,9 @@ from mmpose.models.utils.ops import resize
 from mmpose.utils import get_root_logger
 
 # from ..builder import BACKBONES
-from basic_block import BasicBlock
-from bottleneck_block import Bottleneck
-from transformer_block import GeneralTransformerBlock
+from .basic_block import BasicBlock
+from .bottleneck_block import Bottleneck
+from .transformer_block import GeneralTransformerBlock
 
 
 class HighResolutionTransformerModule(nn.Module):

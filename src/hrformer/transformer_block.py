@@ -13,8 +13,8 @@ import torch
 import torch.nn as nn
 from functools import partial
 
-from multihead_isa_attention import MultiheadISAAttention
-from ffn_block import MlpDWBN
+from .multihead_isa_attention import MultiheadISAAttention
+from .ffn_block import MlpDWBN
 from timm.models.layers import DropPath
 
 
