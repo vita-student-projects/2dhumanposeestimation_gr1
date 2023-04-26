@@ -7,3 +7,4 @@ mmcv<1.4.0
 mmpose==0.13.0
 timm==0.4.5
 einops==0.6.1
+yacs==0.1.8
