@@ -19,10 +19,12 @@ def main(
     args += " --lr 1e-3 --lr-decay 250 280 --lr-decay-epochs 10 --lr-decay-factor 10 --lr-warm-up-start-epoch 0 --lr-warm-up-epochs 1 --lr-warm-up-factor 1e-3"
 
     # Backbone specific arguments
-    if backbone == "swin":
-        args += (
-            " --basenet swin_b"  # TODO: all pre-trained swin types + resnet as baseline
-        )
+    if backbone == "swin_s":
+        args += " --basenet swin_b"
+    elif backbone == "swin_b":
+        args += " --basenet swin_b"
+    elif backbone == "resnet":
+        args += " --basenet resnet50"
     else:
         raise ValueError(f"Unknown backbone option: {backbone}")
 
