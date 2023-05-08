@@ -15,7 +15,7 @@ rm images.zip
 # Download the annotations
 gdown https://drive.google.com/drive/folders/1Ch1Cobe-6byB7sLhy8XRzOGCGTW2ssFv --folder
 # Rename the downloaded folder
-mv /data-crowdpose/CrowdPose /data-crowdpose/json
+mv data-crowdpose/CrowdPose/ data-crowdpose/json/
 
 # Change back to root directory
 cd ..
