@@ -4,27 +4,25 @@
 
 ---
 
-TODO: short description of the project at the end
+## Contribution overview
 
-# 1. Environment
+TODO:
 
-This project makes use of Docker to ensure a consistent environment setting.
-In order to properly run the files, please make use of the provided `louisgevers/dlav2023` image which is available on [Dockerhub](https://hub.docker.com/r/louisgevers/dlav2023).
-
-To run the container with an interactive command line in order to run the different scripts, run the following:
-
-```bash
-$ docker run -it --rm -v $(pwd):/usr/src louisgevers/dlav2023 sh
+```
+Highlight the changes you have made to existing work. Justify the reasons behind these changes (What do you want to improve? and How?). It’s better to use visuals to guide the reader to understand your work.
 ```
 
-## Building the image yourself
+## Experimental setup
 
-If you prefer to build the image yourself, you can do so with the Dockerfile provided with project before running the command above:
-```bash
-$ docker build -t louisgevers/dlav2023 .
+TODO:
+
+```
+What are the experiments you conducted? What are the evaluation
+metrics?
 ```
 
-# 2. Dataset
+## Dataset
+
 
 We use the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose).
 The repository contains the Google drive links for downloading the images and annotations.
@@ -36,12 +34,35 @@ To avoid doing this manually, simply run the following script:
 $ sh data.sh
 ```
 
-Note: run this in your container or install `gdown` with pip.
+Note: make sure to have `gdown` installed (provided in the `requirements.txt`).
 
-# TODO
+## Results
 
-instructions to run and test model + links to download the models weights/checkpoints
+TODO:
 
-**Backbones to test**
+```
+Qualitative and Quantitative results of your experiments
+```
 
-- Pruning with big backbone (HRFormer) vs using a small backbone (second is extra) (we can compare performance with mobilenet)
+## Conclusion
+
+TODO: short
+
+## References
+
+- OpenPifPaf, Swin
+
+---
+
+## Instructions for running the models
+
+TODO:
+
+```
+Instructions to run and test model + links to download the models weights/checkpoints
+```
+
+All of our code can be found under the scripts folder:
+- [scripts/dataset.py](scripts/dataset.py) for the CrowdPose dataset class
+- [scripts/train.py](scripts/train.py) for training the models
+- [scripts/inference.py](scripts/inference.py) for predictions
