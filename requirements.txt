@@ -1,6 +1,6 @@
 openpifpaf==0.13.11 
-matplotlib==3.7.1
+matplotlib
 gdown==4.7.1
-pycocotools==2.0.6
-scipy==1.10.1
+pycocotools
+scipy
 openpifpaf-extras==0.0.3

@@ -6,7 +6,7 @@
 cd data-crowdpose
 
 # Download the images
-gdown https://drive.google.com/uc?id=1VprytECcLtU4tKP32SYi_7oDRbw7yUTL
+# gdown https://drive.google.com/uc?id=1VprytECcLtU4tKP32SYi_7oDRbw7yUTL
 # Unzip images
 unzip images.zip
 # Remove the zip file

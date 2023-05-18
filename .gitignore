@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Venvs
+venvs/
+
+# Output files from slurm
+*.out
+core.*
