@@ -4,6 +4,26 @@
 
 ---
 
+## TODO
+
+Implementations:
+- Implement dataset.py
+- Implement inference.py
+- Script for evaluation metrics
+
+Training:
+- swin_t train
+- swin_s train
+- resnet reference?
+
+Writing:
+- Contribution overview
+- Experimental setup
+- Results
+- Conclusion
+- References
+- Instructions for running the models
+
 ## Contribution overview
 
 TODO:
