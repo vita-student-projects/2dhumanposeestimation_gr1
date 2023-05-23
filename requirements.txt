@@ -4,3 +4,5 @@ gdown==4.7.1
 pycocotools
 scipy
 openpifpaf-extras==0.0.3
+tabulate
+thop
