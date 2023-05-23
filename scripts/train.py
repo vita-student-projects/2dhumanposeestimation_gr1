@@ -1,9 +1,24 @@
 import openpifpaf
 import openpifpaf.train
 import sys
+import argparse
 
+# Train utility for providing fixed arguments to OpenPifPaf
+# This considerably reduces the training arguments required (and makes sure they're the same across runs).
+# NOTE: The parameters have been chosen to train a pruned network
+def train_pruned():
+    # Base arguments
+    args = f"--dataset crowdpose --epochs 100 --loader-workers 1"
+    # Optimizer
+    args += " --lr 1e-5 --momentum 0.95 --weight-decay 1e-5 --batch-size 32 " 
 
-def main(
+    # Add arguments to system for openpifpaf script
+    sys.argv.extend(args.split())
+    # Run openpifpaf training script
+    openpifpaf.train.main()
+
+# Normal training on CrowdPose. This is old code that was used to train swin...
+def normal(
     output: str,
     backbone,
     epochs: int = 300,  # default for crowdpose
@@ -36,5 +51,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main("test", backbone="out/test.epoch124")
-
+    train_pruned()
