@@ -8,7 +8,7 @@ import argparse
 # NOTE: The parameters have been chosen to train a pruned network
 def train_pruned():
     # Base arguments
-    args = f"--dataset crowdpose --epochs 100 --loader-workers 1"
+    args = f"--dataset crowdpose --epochs 100 --loader-workers 1 --fix-batch-norm"
     # Optimizer
     args += " --lr 1e-5 --momentum 0.95 --weight-decay 1e-5 --batch-size 32 " 
 
