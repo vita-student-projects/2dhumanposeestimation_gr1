@@ -11,6 +11,10 @@ def create_pruned_checkpoint(checkpoint, amount):
     to_prune = [(module, 'weight') for module in model.modules() if type(module) == torch.nn.Linear or type(module) == torch.nn.Conv2d]
     # Remove lowest amount% of weights
     prune.global_unstructured(to_prune, pruning_method=prune.L1Unstructured, amount=amount)
+    # Apply the pruning (yes the function name is counterintuitive)
+    for module, name in to_prune:
+        if prune.is_pruned(module):
+            prune.remove(module, name)
     # Reset the epoch
     checkpoint['epoch'] = 0
     # Store the checkpoint back (the weights are modified in place)
