@@ -134,3 +134,6 @@ venvs/
 # Output files from slurm
 *.out
 core.*
+
+# Checkpoints
+*.pt
