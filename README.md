@@ -48,9 +48,10 @@ We use the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose).
 The repository contains the Google drive links for downloading the images and annotations.
 Images should be downloaded under the [/data-crowdpose/images/](/data-crowdpose/images/) directory, and annotations under [/data-crowdpose/json/](/data-crowdpose/json/).
 
-To avoid doing this manually, simply run the following script:
+To avoid doing this manually, simply run the following script in the data directory:
 
 ```bash
+$ cd data-crowdpose
 $ sh data.sh
 ```
 
@@ -81,6 +82,15 @@ TODO:
 ```
 Instructions to run and test model + links to download the models weights/checkpoints
 ```
+First, make sure to have downloaded the CrowdPose dataset in the `data-crowdpose` folder (see dataset section).
+To download the model weights, go into the `checkpoints` directory and run the corresponding script:
+
+```bash
+$ cd checkpoints
+$ sh checkpoints.sh
+```
+
+With the dataset and model weights ready, you can use all the remaining scripts in this repository.
 
 All of our code can be found under the scripts folder:
 - [scripts/dataset.py](scripts/dataset.py) for the CrowdPose dataset class

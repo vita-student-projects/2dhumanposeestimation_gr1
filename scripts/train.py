@@ -17,7 +17,8 @@ def train_pruned():
     # Run openpifpaf training script
     openpifpaf.train.main()
 
-# Normal training on CrowdPose. This is old code that was used to train swin...
+# Normal training on CrowdPose. Put this in main with backbone = 'swin_t' to train with
+# with a swin backbone.
 def normal(
     output: str,
     backbone,
