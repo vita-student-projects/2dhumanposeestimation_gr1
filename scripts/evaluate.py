@@ -1,7 +1,7 @@
 import openpifpaf.benchmark
 import sys
 
-MODELS = ['shufflenetv2k16', 'out/test.epoch250'] # TODO add the pruned checkpoints here
+MODELS = ['checkpoints/shufflenet_pruned1.pt', 'checkpoints/shufflenet_pruned2.pt', 'checkpoints/resnet_pruned.pt', 'checkpoints/swin.pt', 'shufflenetv2k16', 'resnet50']
 
 # Run the benchmarks on all models of interest
 def run():
