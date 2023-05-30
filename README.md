@@ -46,17 +46,35 @@ Multiple iterations would achieve higher compression rates, yet due to time and 
 
 ## Experimental setup
 
-TODO:
+Aiming to extend OpenPifPaf, we evaluate our models with the same metrics the previous models have been evaluated.
+We will concentrate on keeping a similar average precision (AP), while having a lower inference time, and a lower file size (MB) of the model.
 
-```
-What are the experiments you conducted? What are the evaluation
-metrics?
-```
+### Training with a Swin backbone
+
+We trained OpenPifPaf with the `swin_t` (Swin tiny) backbone on the CrowdPose dataset.
+Similar to the training of previous backbones on CrowdPose [1], we chose a learning rate of 1e-4, warmed up for an epoch, a weight decay of 1e-5, a batch size of 32, and ran for 250 epochs.
+
+For the implementation of the training procedure, please refer to [scripts/train.py](scripts/train.py).
+
+### Training pruned backbones
+
+We pruned both the `resnet50` and `shufflenetv2k16` networks, removing 20% of the weights of their linear and convolutional layers.
+We then trained them for 100 epochs with a learning rate of 1e-5.
+
+For more details about the training implementation, please refer to [scripts/train.py](scripts/train.py).
+
+### Compare with existing work
+
+Currently, OpenPifPaf officially only provides a [ResNet backbone](https://openpifpaf.github.io/plugins_crowdpose.html#prediction) that has been trained on CrowdPose.
+As its performance was similar to ShuffleNet on the COCO dataset, we will use this as our baseline.
+We will also evaluate a ShuffleNet, but only to compare inference time and model size.
+
+Overal, we aimed to stay as consistent as possible with the original work, attempting to not modify the existing library.
 
 ## Dataset
 
 
-We use the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose).
+We use the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose), which is already compatible with OpenPifPaf.
 The repository contains the Google drive links for downloading the images and annotations.
 Images should be downloaded under the [/data-crowdpose/images/](/data-crowdpose/images/) directory, and annotations under [/data-crowdpose/json/](/data-crowdpose/json/).
 
@@ -76,6 +94,14 @@ TODO:
 ```
 Qualitative and Quantitative results of your experiments
 ```
+
+| Checkpoint                                |       AP |   AP0.5 |   AP0.75 |   APM |   APL |   t_total |   t_NN |   t_dec |    size |
+|:------------------------------------|---------:|--------:|---------:|------:|------:|----------:|-------:|--------:|--------:|
+| [shufflenetv2k16]                   |  n/a |       n/a |        n/a |     n/a |     n/a |      59ms |   26ms |    31ms |  38.9MB |
+| [resnet50-crowdpose]                | __23.3__ |    43.9 |     20.1 |  16.2 |  25.2 |      47ms |   39ms |     5ms |  96.4MB |
+| [checkpoints/swin.pt]               | __34.3__ |    57.9 |     32.9 |     6 |  42.5 |      38ms |   29ms |     6ms | 105.8MB |
+| [checkpoints/resnet_pruned.pt]      | __40.5__ |    64.7 |     38.9 |  23.2 |  45.7 |      45ms |   33ms |     9ms |  91.5MB |
+| [checkpoints/shufflenet_pruned2.pt] | __48.1__ |    72.1 |       48 |  21.5 |  55.2 |      36ms |   25ms |     9ms |  34.9MB |
 
 ## Conclusion
 
