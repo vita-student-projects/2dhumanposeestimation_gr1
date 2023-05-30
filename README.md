@@ -126,11 +126,6 @@ TODO:
 
 ## Instructions for running the models
 
-TODO:
-
-```
-Instructions to run and test model + links to download the models weights/checkpoints
-```
 First, make sure to have downloaded the CrowdPose dataset in the `data-crowdpose` folder (see dataset section).
 To download the model weights, go into the `checkpoints` directory and run the corresponding script:
 
@@ -141,7 +136,48 @@ $ sh checkpoints.sh
 
 With the dataset and model weights ready, you can use all the remaining scripts in this repository.
 
-All of our code can be found under the scripts folder:
-- [scripts/dataset.py](scripts/dataset.py) for the CrowdPose dataset class
-- [scripts/train.py](scripts/train.py) for training the models
-- [scripts/inference.py](scripts/inference.py) for predictions
+### Training
+
+Preset training script: [scripts/train.py](scripts/train.py)
+
+```bash
+$ python scripts/train.py --checkpoint <your-checkpoint> --output <outputs-prefix>
+```
+
+Additionally, all [openpifpaf.train](https://openpifpaf.github.io/cli_help.html#train) options are also available.
+
+### Pruning
+
+Prune a checkpoint and save it in another file: [scripts/prune.py](scripts/prune.py)
+
+```bash
+python scripts/prune.py --checkpoint <checkpoint-to-prune> --amount <percentage-to-prune>
+```
+
+### Inference
+
+Infer using the best performing pruned shufflenet checkpoint: [scripts/inference.py](scripts/inference.py)
+
+```bash
+python scripts/inference.py <image> --image-output <output-image> --json-output <output-annotation>
+```
+
+Additionally, all [openpifpaf.predict](https://openpifpaf.github.io/cli_help.html#predict) options are also available.
+
+### Evaluating
+
+Evaluate all checkpoints of interest of our project, to generate the table for the results: [scripts/evaluate.py](scripts/evaluate.py)
+
+```bash
+$ python scripts/evaluate.py
+```
+
+Additionally, all [openpifpaf.benchmark](https://openpifpaf.github.io/cli_help.html#benchmark) options are also available.
+
+### SCITAS
+
+Some useful run files for SCITAS are made available as well under the `sbatch` folder:
+- [evaluate.run](sbatch/evaluate.run) = run the evaluation script
+- [train-pruned-resnet.run](sbatch/train-pruned-resnet.run) = prune and train a ResNet backbone
+- [train-pruned-shufflenet.run](sbatch/train-pruned-shufflenet.run) = prune and train a ShuffleNet backbone
+- [train-swin.run](sbatch/train-swin.run) = train a Swin backbone (make sure to update the main of the `train.py` file)
