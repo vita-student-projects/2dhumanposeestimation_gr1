@@ -89,11 +89,7 @@ Note: make sure to have `gdown` installed (provided in the `requirements.txt`).
 
 ## Results
 
-TODO:
-
-```
-Qualitative and Quantitative results of your experiments
-```
+After running our experiments, we run OpenPifPaf's benchmark using the [scripts/evaluate.py](scripts/evaluate.py) script:
 
 | Checkpoint                                |       AP |   AP0.5 |   AP0.75 |   APM |   APL |   t_total |   t_NN |   t_dec |    size |
 |:------------------------------------|---------:|--------:|---------:|------:|------:|----------:|-------:|--------:|--------:|
@@ -103,9 +99,22 @@ Qualitative and Quantitative results of your experiments
 | [checkpoints/resnet_pruned.pt]      | __40.5__ |    64.7 |     38.9 |  23.2 |  45.7 |      45ms |   33ms |     9ms |  91.5MB |
 | [checkpoints/shufflenet_pruned2.pt] | __48.1__ |    72.1 |       48 |  21.5 |  55.2 |      36ms |   25ms |     9ms |  34.9MB |
 
+Remember that the `shufflenetv2k16` backbone was not trained on CrowPose, and was not able to give use any good results due incompatible heads, we therefore do not report its AP.
+We do see however that the inference of its pruned version is slightly faster, as well as being more lightweight.
+
+TODO: remaining interpretation (I believe we have an unfair advantage over resnet50-crowdpose as we have pretrained models from COCO that we pruned)
+
 ## Conclusion
 
-TODO: short
+NOTE: Assingment says **short** conclusion
+
+TODO:
+- Swin needs more investigation, i.e. use better learning parameters
+- Pruning seems promising, needs additional experiments:
+   - What if we train on COCO, can we get higher performance?
+   - Iterative pruning
+   - Sparse representation if hardware is supported
+   - Better baselines
 
 ## References
 
