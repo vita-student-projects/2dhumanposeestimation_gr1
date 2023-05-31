@@ -25,6 +25,8 @@ To address this, we explored two different methods:
 
 Furthermore, focusing on urban environments, we trained and evaluated on the CrowdPose dataset.
 
+![Qualitative visualisation of 2D pose estimation by OpenPifPaf [1]](images/openpifpaf.JPG)
+
 ### New backbone: Swin
 
 OpenPifPaf provides several pretrained backbones on their [official torchhub](https://github.com/openpifpaf/torchhub/releases).
