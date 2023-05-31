@@ -33,7 +33,7 @@ Inspired by the equivalent performance of the ResNet backbone with the much smal
 As all trained backbones provided by OpenPifPaf are convolutional networks, we tried to explore a transformer-based backbone.
 More specifically, we opted for Swin [2], a state-of-the-art general purpose vision transformer.
 
-We explored [HRFormer](https://github.com/HRNet/HRFormer) initially, but due to integration issues and inactivity from the author since 2021, we stuck to the ready-to-train Swin backbone instead.
+We initially explored [HRFormer](https://github.com/HRNet/HRFormer), but due to integration issues and inactivity from the author since 2021, we stuck to the ready-to-train Swin backbone instead.
 
 ### Pruning ShuffleNet and ResNet
 
