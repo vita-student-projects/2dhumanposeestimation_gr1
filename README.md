@@ -23,7 +23,7 @@ To address this, we explored two different methods:
 1. Training a new backbone
 2. Pruning existing backbones
 
-Furthermore, focussing on urban environments, we train and evaluate on the CrowdPose dataset.
+Furthermore, focusing on urban environments, we trained and evaluated on the CrowdPose dataset.
 
 ### New backbone: Swin
 
