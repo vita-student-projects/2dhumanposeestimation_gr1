@@ -28,7 +28,7 @@ Furthermore, focusing on urban environments, we trained and evaluated on the Cro
 ### New backbone: Swin
 
 OpenPifPaf provides several pretrained backbones on their [official torchhub](https://github.com/openpifpaf/torchhub/releases).
-Inspired by how the equivalent performance of the ResNet backbone with the much smaller and faster ShuffleNet backbone, we aim to train  new backbone.
+Inspired by the equivalent performance of the ResNet backbone with the much smaller and faster ShuffleNet backbone, we aimed to train with a new backbone.
 
 As all trained backbones provided by OpenPifPaf are convolutional networks, we try to explore a transformer-based backbone.
 More specifically, we opted for Swin [2], a state-of-the-art general purpose vision transformer.
