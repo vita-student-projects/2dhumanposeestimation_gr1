@@ -102,19 +102,20 @@ After running our experiments, we run OpenPifPaf's benchmark using the [scripts/
 Remember that the `shufflenetv2k16` backbone was not trained on CrowPose, and was not able to give use any good results due incompatible heads, we therefore do not report its AP.
 We do see however that the inference of its pruned version is slightly faster, as well as being more lightweight.
 
-TODO: remaining interpretation (I believe we have an unfair advantage over resnet50-crowdpose as we have pretrained models from COCO that we pruned)
+A second observation that can be made is that the Swin backbone seems to reduce inference time. It makes for a heavier network and its AP is not really good, however.
+
+Finally, the pruned ResNet is slighlty faster and more leightweight than its counterpart ResNet50-Crowdpose, a promising result given the aim we set ourselves. The AP of ResNet50-CrowdPose and our pruned ResNet should probably not be compared, however: we pruned models pretrained on COCO, which gives them an unfair advantage.
 
 ## Conclusion
 
-NOTE: Assingment says **short** conclusion
+In conclusion, the results we obtained from our two contributions show some promise, and they probably deserve more exploration with the hope of reaching state-of-the-art performance.
 
-TODO:
-- Swin needs more investigation, i.e. use better learning parameters
-- Pruning seems promising, needs additional experiments:
-   - What if we train on COCO, can we get higher performance?
-   - Iterative pruning
-   - Sparse representation if hardware is supported
-   - Better baselines
+First, the Swin backbone improves inference time, in spite of taking more space in memory. Its precision is not really satisfactory, but we know transformers to be quite sensitive to learning hyperparameter choice. We used the same hyperparameters as for ShuffleNet, but that was probably not the most appropriate choice given the radically different architectures of the two backbones.
+
+The pruning definitely shows promise as well: it has the double benefit of speeding up inference and reducing model size. More pruning iterations and a sparser representation (if the hardware supports it) would probably further enhance those qualities
+To reach higher AP we should probably start by exploration the learning hyperparameter space to find better suited candidates. It would probably we worth training the model on COCO as well to get higher performance.
+
+Finally, we should look for better baselines to assess our contibutions: the absence of results for SuffleNetv2k16 and the suprisingly low AP for ResNet50-CrowdPose make it difficult to evaluate the impact of backbone change and pruning on performance.   
 
 ## References
 
