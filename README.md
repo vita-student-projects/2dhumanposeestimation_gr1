@@ -55,7 +55,7 @@ We therefore propose a pruning script for OpenPifPaf backbones, and a single ite
 Multiple iterations would achieve higher compression rates, yet due to time and resource limitations we reserve them for future work.
 
 <figure align="center">
-  <img src="images/pruning.JPG" alt="openpifpaf" width="800">
+  <img src="images/pruning.JPG" alt="openpifpaf" width="500">
   <figcaption align="center">Pruning: schematical representation of concept [3].</figcaption>
 </figure>
 
