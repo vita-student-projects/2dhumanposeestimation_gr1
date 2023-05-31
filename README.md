@@ -46,8 +46,8 @@ Multiple iterations would achieve higher compression rates, yet due to time and 
 
 ## Experimental setup
 
-Aiming to extend OpenPifPaf, we evaluate our models with the same metrics the previous models have been evaluated.
-We will concentrate on keeping a similar average precision (AP), while having a lower inference time, and a lower file size (MB) of the model.
+Aiming to extend OpenPifPaf, we evaluate our models with the same metrics the previous models have been evaluated on.
+We will concentrate on keeping a similar average precision (AP), while having a lower inference time, and (as an ideal by-product) a lower file size (MB) of the model.
 
 ### Training with a Swin backbone
 
