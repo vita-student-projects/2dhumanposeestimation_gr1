@@ -1,6 +1,6 @@
 # DLAV 2023 Project: 2D Human Pose Estimation
 
-**Group 1** (Sabri el Almani - Louis Gevers)
+**Group 1** (Sabri El Amrani - Louis Gevers)
 
 ---
 
