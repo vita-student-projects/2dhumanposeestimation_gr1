@@ -40,6 +40,11 @@ More specifically, we opted for Swin [2], a state-of-the-art general purpose vis
 
 We initially explored [HRFormer](https://github.com/HRNet/HRFormer), but due to integration issues and inactivity from the author since 2021, we stuck to the ready-to-train Swin backbone instead.
 
+<figure align="center">
+  <img src="images/swin.JPG" alt="swin" width="800">
+  <figcaption align="center">Architecture of Swin [2].</figcaption>
+</figure>
+
 ### Pruning ShuffleNet and ResNet
 
 Pruning involves removing a fraction of weights with lowest magnitude before retraining the compressed network.
@@ -48,6 +53,11 @@ They show that this method can achieve compression rates between 9 and 13 with e
 
 We therefore propose a pruning script for OpenPifPaf backbones, and a single iteration of pruned ResNet and ShuffleNet trained backbones for reference.
 Multiple iterations would achieve higher compression rates, yet due to time and resource limitations we reserve them for future work.
+
+<figure align="center">
+  <img src="images/pruning.JPG" alt="openpifpaf" width="800">
+  <figcaption align="center">Pruning: schematical representation of concept [3].</figcaption>
+</figure>
 
 ## Experimental setup
 
