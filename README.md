@@ -11,7 +11,7 @@ When selecting a human pose estimation method for autonomous driving, there are 
 First, the chosen method must have a high level of accuracy to ensure safety, which can be achieved through the implementation of state-of-the-art approaches. 
 Additionally, it should be capable of performing these estimations from video and do so in an online fashion. 
 Finally, the method should perform well in urban environments, where it may encounter challenges such as crowds and occlusions.
-Given these considerations, we chose [OpenPifPaf](https://github.com/openpifpaf/openpifpaf) [1] as the base method, and training and evaluating it on the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose).
+Given these considerations, we chose [OpenPifPaf](https://github.com/openpifpaf/openpifpaf) [1] as the base method, and trained and evaluated it on the [CrowdPose dataset](https://github.com/Jeff-sjtu/CrowdPose).
 
 ## Contribution overview
 
