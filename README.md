@@ -110,10 +110,10 @@ Finally, the pruned ResNet is slighlty faster and more leightweight than its cou
 
 In conclusion, the results we obtained from our two contributions show some promise, and they probably deserve more exploration with the hope of reaching state-of-the-art performance.
 
-First, the Swin backbone improves inference time, in spite of taking more space in memory. Its precision is not really satisfactory, but we know transformers to be quite sensitive to learning hyperparameter choice. We used the same hyperparameters as for ShuffleNet, but that was probably not the most appropriate choice given the radically different architectures of the two backbones.
+First, the Swin backbone improves inference time, in spite of taking more space in memory. Its precision is not really satisfactory, but we used the same hyperparameters as for ShuffleNet: that was probably not the most appropriate choice given the radically different architectures of the two backbones.
 
 The pruning definitely shows promise as well: it has the double benefit of speeding up inference and reducing model size. More pruning iterations and a sparser representation (if the hardware supports it) would probably further enhance those qualities
-To reach higher AP we should probably start by exploration the learning hyperparameter space to find better suited candidates. It would probably we worth training the model on COCO as well to get higher performance.
+To reach higher AP we should probably start by exploring the learning hyperparameter space to find better suited candidates. It would probably be worth training the model on COCO as well to get higher performance.
 
 Finally, we should look for better baselines to assess our contibutions: the absence of results for SuffleNetv2k16 and the suprisingly low AP for ResNet50-CrowdPose make it difficult to evaluate the impact of backbone change and pruning on performance.   
 
