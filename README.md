@@ -123,6 +123,8 @@ Finally, we should look for better baselines to assess our contibutions: the abs
 
 [2] Swin transformer: Hierarchical vision transformer using shifted windows,” in *Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)*, Oct. 2021, pp. 10 012–10 022.
 
+[3] S. Han, H. Mao, and W. J. Dally, Deep Compression: Compressing Deep Neural Net-works with Pruning, Trained Quantization and Huffman Coding, Feb. 2016. arXiv:1510.00149 [cs.CV].
+
 ---
 
 ## Instructions for running the models
