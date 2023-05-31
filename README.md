@@ -27,7 +27,7 @@ Furthermore, focusing on urban environments, we trained and evaluated on the Cro
 
 <figure align="center">
   <img src="images/openpifpaf.JPG" alt="openpifpaf" width="800">
-  <figcaption>Qualitative visualisation of 2D pose estimation by OpenPifPaf [1].</figcaption>
+  <figcaption align="center">Qualitative visualisation of 2D pose estimation by OpenPifPaf [1].</figcaption>
 </figure>
 
 ### New backbone: Swin
