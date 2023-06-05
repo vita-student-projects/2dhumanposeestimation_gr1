@@ -1,7 +1,7 @@
 import openpifpaf.benchmark
 import sys
 
-MODELS = ['checkpoints/shufflenet_pruned1.pt', 'checkpoints/shufflenet_pruned2.pt', 'checkpoints/resnet_pruned.pt', 'checkpoints/swin.pt', 'shufflenetv2k16', 'resnet50']
+MODELS = ['resnet50-crowdpose', 'shufflenetv2k16', 'checkpoints/shufflenet_pruned1.pt', 'checkpoints/shufflenet_pruned2.pt', 'checkpoints/resnet_pruned.pt', 'checkpoints/swin.pt'] 
 
 # Run the benchmarks on all models of interest
 def run():
