@@ -1,0 +1,17 @@
+{
+
+"project" :  "project_name",
+"output": [
+{ "frame":  1,
+"predictions": []
+},
+{ "frame":  2,
+"predictions": [] 
+},
+
+{ "frame":  5000,
+"predictions": []
+}
+]
+
+}
