@@ -137,3 +137,6 @@ core.*
 
 # Checkpoints
 *.pt
+
+# Videos
+*.mp4
